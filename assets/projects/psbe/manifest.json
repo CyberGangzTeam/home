@@ -1,0 +1,47 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Paretion Shader Bedrock Edition",
+    "description": "Version: 0.26.5 Dev\nCodename: Hydrogen\nDeveloper: ngmvix2010_\nA custom Render Dragon shader for Minecraft\nOnly work with MB Loader.",
+    "uuid": "315fc9a8-de57-468c-98fa-a0621514d921",
+    "version": [
+      0,
+      26,
+      5
+    ],
+    "min_engine_version": [
+      1,
+      26,
+      10
+    ]
+  },
+  "modules": [
+    {
+      "type": "resources",
+      "uuid": "9c02e310-2edd-409b-9bea-26f6a86b8dd0",
+      "version": [
+        0,
+        26,
+        5
+      ]
+    }
+  ],
+  "subpacks": [
+    {
+      "folder_name": "lite",
+      "name": "Lite",
+      "memory_tier": 1
+    },
+    {
+      "folder_name": "default",
+      "name": "Default",
+      "memory_tier": 1
+    }
+  ],
+  "metadata": {
+    "authors": [
+      "ngmvix2010_"
+    ],
+    "url": "https://studio.vietus.org/paretion"
+  }
+}

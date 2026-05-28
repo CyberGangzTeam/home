@@ -1,0 +1,49 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Miration Shader",
+    "description": "Version: 1.0.0 Beta\nDeveloper: ngmvix2010_, jaggerfinn_, congcq\nA custom Render Dragon shader for Minecraft\nOnly work with MB Loader.",
+    "uuid": "5bd66be7-7c51-409b-8635-faf10fe9eb81",
+    "version": [
+      1,
+      0,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      26,
+      10
+    ]
+  },
+  "modules": [
+    {
+      "type": "resources",
+      "uuid": "a5a78f68-adb9-4012-8ac8-6ccd245a3f06",
+      "version": [
+        1,
+        0,
+        0
+      ]
+    }
+  ],
+  "subpacks": [
+    {
+      "folder_name": "lite",
+      "name": "Lite",
+      "memory_tier": 1
+    },
+    {
+      "folder_name": "default",
+      "name": "Default",
+      "memory_tier": 1
+    }
+  ],
+  "metadata": {
+    "authors": [
+      "ngmvix2010_",
+      "jaggerfinn_",
+      "congcq"
+    ],
+    "url": "https://studio.cybergangz.org/miration-be"
+  }
+}

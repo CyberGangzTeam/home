@@ -1,0 +1,68 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Newb Paretion",
+    "description": "Codename: Hydrogen (v26.05)\nA custom variant of Newb X Legacy\n\u00a7cOnly works with Hynis Loader\n\u00a77- An enchanced vanilla shader for Minecraft!\nv26.5-ios\n\u00a73https://devendrn.github.io/newb-shader/\n",
+    "uuid": "32ac0ead-01f8-4040-8696-9824638d2b81",
+    "version": [
+      0,
+      26,
+      5
+    ],
+    "min_engine_version": [
+      1,
+      26,
+      10
+    ]
+  },
+  "modules": [
+    {
+      "type": "resources",
+      "uuid": "900f3d8b-37b4-465f-8f56-941687e36c35",
+      "version": [
+        0,
+        26,
+        5
+      ]
+    }
+  ],
+  "subpacks": [
+    {
+      "folder_name": "volumetric",
+      "name": "Volumetric Clouds (Testing)",
+      "memory_tier": 1
+    },
+    {
+      "folder_name": "volumetric_alt",
+      "name": "Volumetric Clouds (Alt, Testing)",
+      "memory_tier": 1
+    },
+    {
+      "folder_name": "lowpoly_chunk",
+      "name": "LowPoly Chunk Mode (Testing)",
+      "memory_tier": 1
+    },
+    {
+      "folder_name": "lite",
+      "name": "Lite Mode",
+      "memory_tier": 1
+    },
+    {
+      "folder_name": "galaxy",
+      "name": "Galaxy Sky",
+      "memory_tier": 1
+    },
+    {
+      "folder_name": "default",
+      "name": "Default",
+      "memory_tier": 1
+    }
+  ],
+  "metadata": {
+    "authors": [
+      "ngmvix2010_",
+      "devendrn"
+    ],
+    "url": "https://devendrn.github.io/newb-shader/"
+  }
+}

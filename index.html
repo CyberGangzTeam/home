@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberGangz Studio Official Site</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:opsz,wght@6..12,400..800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Google Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            blue: '#2563eb',
+                            blueHover: '#1d4ed8'
+                        },
+                        dark: {
+                            bg: '#050505',
+                            glass: 'rgba(30, 30, 32, 0.7)',
+                            glassBorder: 'rgba(255, 255, 255, 0.08)',
+                            card: '#151515'
+                        },
+                        light: {
+                            bg: '#F3F4F6',
+                            glass: 'rgba(255, 255, 255, 0.8)'
+                        }
+                    },
+                    boxShadow: {
+                        'glow-blue': '0 0 40px -10px rgba(37, 99, 235, 0.4)',
+                        'glass-inset': 'inset 0 1px 0 0 rgba(255, 255, 255, 0.1)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            transition: background-color 0.5s ease, color 0.5s ease;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .glass-effect {
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .dark .glass-effect {
+            background-color: theme('colors.dark.glass');
+            border: 1px solid theme('colors.dark.glassBorder');
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), theme('boxShadow.glass-inset');
+        }
+
+        .light .glass-effect {
+            background-color: theme('colors.light.glass');
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+        }
+
+        .dark .glass-card {
+            background: linear-gradient(145deg, rgba(35,35,40,0.8) 0%, rgba(20,20,25,0.9) 100%);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* Interactions */
+        .interactive-element {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .interactive-element:hover {
+            transform: translateY(-2px) scale(1.01);
+        }
+
+        .interactive-element:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        .dark .hover-glow-glass:hover {
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            background-color: rgba(50, 50, 55, 0.8);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .ambient-glow {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90vw;
+            height: 70vh;
+            background: radial-gradient(ellipse at center, rgba(37, 99, 235, 0.15) 0%, rgba(0, 0, 0, 0) 60%);
+            filter: blur(80px);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(180deg, #374151 0%, #111827 100%);
+        }
+        
+        .dark .text-gradient {
+            background-image: linear-gradient(180deg, #ffffff 0%, #a1a1aa 100%);
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.95) translateY(10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        
+        .animate-pop-in {
+            animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .page-section {
+            display: none;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        .page-section.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { 
+            background: rgba(156, 163, 175, 0.2); 
+            border-radius: 10px; 
+        }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(156, 163, 175, 0.4); }
+
+        .nav-link.active {
+            color: theme('colors.brand.blue');
+            text-shadow: 0 0 15px rgba(37, 99, 235, 0.5);
+        }
+
+        img { color: transparent; }
+    </style>
+</head>
+<body class="bg-light-bg dark:bg-dark-bg text-gray-900 dark:text-gray-100 min-h-screen flex flex-col font-sans relative antialiased selection:bg-brand-blue selection:text-white">
+
+    <div id="introOverlay" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md transition-opacity duration-500">
+        <div id="dialogContainer" class="bg-[#1c1c1e] w-[90%] max-w-[420px] rounded-[42px] p-8 flex flex-col items-center text-center relative overflow-hidden animate-pop-in border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.1)]">
+            <div class="absolute -bottom-10 left-1/2 -translate-x-1/2 w-3/4 h-24 bg-brand-blue/30 blur-[50px] rounded-full pointer-events-none"></div>
+
+            <div id="dialog1" class="w-full flex flex-col items-center transition-all duration-300">
+                <h2 class="text-2xl font-bold text-white mb-3">Về Trang Này</h2>
+                <p class="text-sm text-gray-300/90 mb-8 leading-relaxed px-2">
+                    Trang này được tạo ra với mục đích để tập trung cách repo dự án, link tải dự án, thông tin về thành viên, trang mạng xã hội và thông tin của studio.
+                </p>
+                <button id="btnNext1" class="w-full bg-brand-blue hover:bg-brand-blueHover text-white py-3.5 rounded-full font-semibold interactive-element shadow-glow-blue text-[15px]">
+                    Tiếp Tục
+                </button>
+            </div>
+
+            <div id="dialog2" class="w-full hidden flex-col items-center transition-all duration-300 opacity-0 translate-y-4">
+                <h2 class="text-2xl font-bold text-white mb-4">LuminousUI Design</h2>
+                <div class="text-[13px] text-gray-300/90 mb-8 leading-relaxed text-left w-full space-y-3">
+                    <p>Phong cách thiết kế giao diện hiện đại với hiệu ứng nảy, hào quang và vật liệu kính mờ mang lại sự tối giản và bí ẩn.</p>
+                    <p>Áp dụng cho các dự án của Vietus & CyberGangz Studio:</p>
+                    <ul class="space-y-2 mt-2 opacity-80">
+                        <li>• HĐH: Open VieOS, HeliumOS, HeritageOS...</li>
+                        <li>• VieApps: VieAppStore, CyberGangz App...</li>
+                        <li>• Các trang Web Studio chính thức.</li>
+                    </ul>
+                </div>
+                <button id="btnNext2" class="w-full bg-brand-blue hover:bg-brand-blueHover text-white py-3.5 rounded-full font-semibold interactive-element shadow-glow-blue text-[15px]">
+                    Trải Nghiệm Ngay
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="ambient-glow"></div>
+
+    <header class="w-full p-4 md:p-6 pt-6 flex flex-col md:flex-row justify-between items-center gap-4 z-40 fixed top-0">
+        <div class="glass-effect rounded-full px-2 py-2 pr-5 flex items-center gap-3 interactive-element hover-glow-glass" onclick="navigateTo('home')">
+            <div class="w-9 h-9 rounded-full bg-black flex items-center justify-center border border-white/20 flex-shrink-0 overflow-hidden">
+                <img src="assets/logo-rounded.svg" alt="CyberGangz Logo" class="w-full h-full object-cover">
+            </div>
+            <span class="font-bold text-sm md:text-base tracking-wide">CyberGangz Studio</span>
+        </div>
+
+        <nav class="glass-effect rounded-full px-2 py-2 flex items-center gap-1 md:gap-2 overflow-x-auto max-w-full">
+            <button onclick="navigateTo('home')" class="nav-link active px-4 py-2 rounded-full font-medium text-sm transition-all hover:bg-white/5 whitespace-nowrap" data-target="home">Home</button>
+            <button onclick="navigateTo('social')" class="nav-link px-4 py-2 rounded-full font-medium text-sm text-gray-400 transition-all hover:bg-white/5 hover:text-white whitespace-nowrap" data-target="social">Social</button>
+            <button onclick="navigateTo('explore')" class="nav-link px-4 py-2 rounded-full font-medium text-sm text-gray-400 transition-all hover:bg-white/5 hover:text-white whitespace-nowrap" data-target="explore">Explore</button>
+            <button onclick="navigateTo('community')" class="nav-link px-4 py-2 rounded-full font-medium text-sm text-gray-400 transition-all hover:bg-white/5 hover:text-white whitespace-nowrap" data-target="community">Join</button>
+            <button onclick="navigateTo('about')" class="nav-link px-4 py-2 rounded-full font-medium text-sm text-gray-400 transition-all hover:bg-white/5 hover:text-white whitespace-nowrap" data-target="about">About</button>
+            
+            <div class="w-px h-5 bg-white/10 mx-2"></div>
+
+            <button id="themeToggle" class="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors interactive-element mr-1" title="Đổi giao diện">
+                <svg id="sunIcon" class="w-4 h-4 hidden dark:block text-yellow-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path></svg>
+                <svg id="moonIcon" class="w-4 h-4 block dark:hidden text-gray-700" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            </button>
+        </nav>
+    </header>
+
+    <main class="flex-grow w-full max-w-6xl mx-auto pt-32 pb-20 px-6 relative z-10 flex flex-col items-center">
+        
+        <section id="home-section" class="page-section active flex-col items-center justify-center text-center w-full min-h-[60vh]">
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 text-gradient leading-tight">
+                CyberGangz Studio<br>Official Site
+            </h1>
+            <p class="text-lg md:text-xl text-gray-400 font-medium mb-12 max-w-2xl">
+                Chào mừng đến với không gian sáng tạo của CyberGangz. Khám phá các dự án, module và cộng đồng của chúng tôi.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center gap-4">
+                <button onclick="navigateTo('social')" class="glass-effect px-10 py-3.5 rounded-full font-semibold interactive-element hover-glow-glass w-full sm:w-auto">
+                    Social Media
+                </button>
+                <button onclick="navigateTo('explore')" class="bg-brand-blue hover:bg-brand-blueHover text-white px-10 py-3.5 rounded-full font-semibold interactive-element shadow-glow-blue w-full sm:w-auto">
+                    Khám Phá Dự Án
+                </button>
+            </div>
+        </section>
+
+        <section id="social-section" class="page-section flex-col items-center w-full">
+            <h2 class="text-3xl md:text-4xl font-bold mb-2">CyberGangz Official Account</h2>
+            <p class="text-gray-400 mb-12">Follow us on each social media</p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 w-full max-w-4xl justify-items-center">
+                <!-- Tiktok -->
+                <a href="https://www.tiktok.com/@cbgzteam_?_r=1&_t=ZS-96jFxKzqSm8" target="_blank" class="flex flex-col items-center gap-4 group cursor-pointer">
+                    <span class="font-bold text-lg">Tiktok</span>
+                    <div class="w-32 h-32 rounded-full bg-[#010101] border-[3px] border-white/5 flex items-center justify-center group-hover:scale-105 group-hover:shadow-[0_0_30px_rgba(254,44,85,0.4)] transition-all">
+                        <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.03 1.6 4.17 1.12 1.25 2.72 1.93 4.38 2.1v3.83c-1.39-.07-2.76-.52-3.93-1.3-.43-.3-.82-.64-1.17-1.01-.03 2.92.01 5.84-.02 8.75-.08 2.29-.98 4.54-2.61 6.16-1.89 1.95-4.63 2.87-7.3 2.51-2.85-.36-5.41-2.43-6.19-5.18-.89-3.04.14-6.49 2.54-8.5 1.7-1.44 3.99-2.01 6.19-1.63v4.03c-1.15-.31-2.42-.08-3.37.64-.95.7-1.42 1.91-1.25 3.1.13 1.15.86 2.19 1.91 2.67 1.11.53 2.45.38 3.42-.37.58-.44.94-1.1 1.02-1.82.09-2.33.03-4.66.05-6.99V0z"/>
+                        </svg>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="font-bold">CyberGangz</h3>
+                        <p class="text-sm text-gray-500">@cbgzteam_</p>
+                    </div>
+                </a>
+
+                <!-- Discord -->
+                <a href="https://discord.com/users/1384501099125538998" target="_blank" class="flex flex-col items-center gap-4 group cursor-pointer">
+                    <span class="font-bold text-lg">Discord</span>
+                    <div class="w-32 h-32 rounded-full bg-black border-[3px] border-white/5 flex items-center justify-center group-hover:scale-105 group-hover:shadow-[0_0_30px_rgba(88,101,242,0.4)] transition-all">
+                        <svg class="w-14 h-14 text-[#5865F2] group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.093 13.093 0 0 1-1.873-.894.077.077 0 0 1-.008-.128c.126-.093.252-.19.372-.287a.075.075 0 0 1 .077-.011c3.92 1.793 8.18 1.793 12.061 0a.073.073 0 0 1 .078.009c.12.099.246.195.373.289a.077.077 0 0 1-.006.127 12.298 12.298 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.156-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.156 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.156-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.156 2.418z"/>
+                        </svg>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="font-bold">CBGz Official</h3>
+                        <p class="text-sm text-gray-500">@cybergangzofficial</p>
+                    </div>
+                </a>
+
+                <!-- Github -->
+                <a href="https://github.com/CyberGangzTeam" target="_blank" class="flex flex-col items-center gap-4 group cursor-pointer">
+                    <span class="font-bold text-lg">Github</span>
+                    <div class="w-32 h-32 rounded-full bg-black border-[3px] border-white/5 flex items-center justify-center group-hover:scale-105 group-hover:shadow-[0_0_30px_rgba(255,255,255,0.25)] transition-all">
+                        <svg class="w-14 h-14 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.068.069-.068 1.005.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.577.688.479C19.138 20.164 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+                        </svg>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="font-bold">CyberGangz Team</h3>
+                        <p class="text-sm text-gray-500">CyberGangzTeam</p>
+                    </div>
+                </a>
+
+                <!-- Youtube -->
+                <a href="https://www.youtube.com/@cbgzteam" target="_blank" class="flex flex-col items-center gap-4 group cursor-pointer">
+                    <span class="font-bold text-lg">Youtube</span>
+                    <div class="w-32 h-32 rounded-full bg-black border-[3px] border-white/5 flex items-center justify-center group-hover:scale-105 group-hover:shadow-[0_0_30px_rgba(255,0,0,0.4)] transition-all">
+                        <svg class="w-14 h-14 text-[#FF0000] group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="font-bold">CyberGangz Team</h3>
+                        <p class="text-sm text-gray-500">@cbgzteam</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section id="community-section" class="page-section flex-col items-center w-full">
+            <h2 class="text-3xl md:text-4xl font-bold mb-2">CyberGangz Official Community</h2>
+            <p class="text-gray-400 mb-12">Join community to chat</p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 w-full max-w-4xl justify-items-center">
+                <!-- Tiktok (Chưa mở - giữ nguyên không bọc link) -->
+                <div class="flex flex-col items-center gap-4 opacity-50 grayscale cursor-not-allowed">
+                    <span class="font-bold text-lg">Tiktok</span>
+                    <div class="w-32 h-32 rounded-full bg-black border-[3px] border-white/5 flex items-center justify-center">
+                        <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.03 1.6 4.17 1.12 1.25 2.72 1.93 4.38 2.1v3.83c-1.39-.07-2.76-.52-3.93-1.3-.43-.3-.82-.64-1.17-1.01-.03 2.92.01 5.84-.02 8.75-.08 2.29-.98 4.54-2.61 6.16-1.89 1.95-4.63 2.87-7.3 2.51-2.85-.36-5.41-2.43-6.19-5.18-.89-3.04.14-6.49 2.54-8.5 1.7-1.44 3.99-2.01 6.19-1.63v4.03c-1.15-.31-2.42-.08-3.37.64-.95.7-1.42 1.91-1.25 3.1.13 1.15.86 2.19 1.91 2.67 1.11.53 2.45.38 3.42-.37.58-.44.94-1.1 1.02-1.82.09-2.33.03-4.66.05-6.99V0z"/>
+                        </svg>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="font-bold">CBGz Studio (Chat)</h3>
+                        <p class="text-xs text-gray-500 mt-1">Not available yet</p>
+                    </div>
+                </div>
+
+                <!-- Messenger -->
+                <div class="flex flex-col items-center gap-4 opacity-50 grayscale cursor-not-allowed">
+                    <span class="font-bold text-lg">Messenger</span>
+                    <div class="w-32 h-32 rounded-full bg-black border-[3px] border-white/5 flex items-center justify-center">
+                        <svg class="w-14 h-14 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.31 2 2 6.14 2 11.5c0 2.9 1.25 5.51 3.25 7.33.1.1.15.22.12.35l-.71 2.59c-.06.21.16.39.35.3l2.81-1.49c.1-.05.22-.05.32 0A10.19 10.19 0 0 0 12 21c5.69 0 10-4.14 10-9.5S17.69 2 12 2zm1.06 12.35l-2.48-2.65-4.83 2.65c-.41.23-.88-.24-.58-.65l2.67-3.53 2.48 2.65 4.67-2.65c.42-.23.89.24.59.65l-2.52 3.53z"/>
+                        </svg>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="font-bold">CBGz Team (Chat)</h3>
+                        <p class="text-xs text-gray-500 mt-1">Not available yet</p>
+                    </div>
+                </div>
+
+                <!-- Discord -->
+                <a href="https://discord.gg/cbgz" target="_blank" class="flex flex-col items-center gap-4 group cursor-pointer text-current no-underline">
+                    <span class="font-bold text-lg">Discord</span>
+                    <div class="w-32 h-32 rounded-full bg-black border-[3px] border-white/5 flex items-center justify-center group-hover:scale-105 group-hover:shadow-[0_0_30px_rgba(88,101,242,0.4)] transition-all">
+                        <svg class="w-14 h-14 text-[#5865F2] group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.093 13.093 0 0 1-1.873-.894.077.077 0 0 1-.008-.128c.126-.093.252-.19.372-.287a.075.075 0 0 1 .077-.011c3.92 1.793 8.18 1.793 12.061 0a.073.073 0 0 1 .078.009c.12.099.246.195.373.289a.077.077 0 0 1-.006.127 12.298 12.298 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.156-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.156 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.156-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.156 2.418z"/>
+                        </svg>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="font-bold">CBGz Community</h3>
+                        <p class="text-xs text-brand-blue mt-1 font-semibold">Click to join</p>
+                    </div>
+                </a>
+
+                <!-- Facebook -->
+                <div class="flex flex-col items-center gap-4 opacity-50 grayscale cursor-not-allowed">
+                    <span class="font-bold text-lg">Facebook</span>
+                    <div class="w-32 h-32 rounded-full bg-black border-[3px] border-white/5 flex items-center justify-center">
+                        <svg class="w-14 h-14 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/>
+                        </svg>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="font-bold">CBGz Community</h3>
+                        <p class="text-xs text-gray-500 mt-1">Not available yet</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about-section" class="page-section flex-col items-center w-full min-h-[50vh]">
+            <h2 class="text-3xl md:text-5xl font-bold mb-4">About CyberGangz Studio</h2>
+            <p class="text-xl text-gray-400">Nothing here yet.</p>
+        </section>
+
+        <section id="explore-section" class="page-section flex-col items-start w-full">
+            <h2 class="text-3xl font-bold mb-10 w-full text-center">Our Projects</h2>
+            <div id="projects-container" class="w-full flex flex-col gap-12">
+                </div>
+        </section>
+
+        <section id="project-detail-section" class="page-section flex-col w-full max-w-5xl">
+            <button onclick="navigateTo('explore')" class="flex items-center gap-2 text-gray-400 hover:text-white mb-6 w-fit interactive-element">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                Back to Explore
+            </button>
+
+            <div class="glass-effect glass-card rounded-[32px] p-6 md:p-8 flex flex-col md:flex-row items-center md:items-start justify-between gap-6 w-full mb-6">
+                <div class="flex flex-col md:flex-row items-center md:items-center gap-6 w-full">
+                    <img id="detail-logo" src="" alt="Logo" class="w-28 h-28 md:w-32 md:h-32 rounded-3xl object-cover bg-white/10 flex-shrink-0 shadow-lg">
+                    <div class="flex flex-col text-center md:text-left h-full justify-center">
+                        <h1 id="detail-title" class="text-3xl md:text-4xl font-bold text-white mb-2">Project Name</h1>
+                        <p id="detail-short-desc" class="text-gray-400 text-lg">This is a project</p>
+                    </div>
+                </div>
+                
+                <div class="flex flex-row items-center gap-4 mt-4 md:mt-0 md:self-end h-full">
+                    <a id="detail-github" href="#" target="_blank" class="glass-effect px-6 py-3 rounded-full font-semibold text-white interactive-element hover-glow-glass whitespace-nowrap text-sm border border-white/10">
+                        Github
+                    </a>
+                    <a id="detail-download" href="#" target="_blank" class="bg-brand-blue hover:bg-brand-blueHover text-white px-6 py-3 rounded-full font-semibold interactive-element shadow-glow-blue whitespace-nowrap text-sm border border-blue-500/50">
+                        Download
+                    </a>
+                </div>
+            </div>
+
+            <div class="glass-effect rounded-full p-1.5 flex items-center w-fit mb-6 border border-white/5">
+                <button id="tab-banner" class="detail-tab active px-6 py-2 rounded-full font-medium text-sm transition-all bg-white/10 text-white" onclick="switchDetailTab('banner')">Banner</button>
+                <button id="tab-desc" class="detail-tab px-6 py-2 rounded-full font-medium text-sm transition-all text-gray-400 hover:text-white" onclick="switchDetailTab('desc')">Desc</button>
+            </div>
+
+            <div class="glass-effect glass-card rounded-[32px] p-2 md:p-4 w-full min-h-[400px] border border-white/5 relative overflow-hidden">
+                <div id="view-banner" class="w-full h-full min-h-[400px] rounded-[24px] overflow-hidden">
+                    <img id="detail-banner-img" src="" alt="Banner" class="w-full h-full object-cover bg-white/10">
+                </div>
+                
+                <div id="view-desc" class="hidden w-full h-full min-h-[400px] p-6 md:p-8 text-gray-300 leading-relaxed">
+                    <p id="detail-long-desc">Detailed description goes here...</p>
+                    <div class="mt-8 flex gap-2 flex-wrap" id="detail-tags"></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        // Du lieu ve du an
+        const projectsData = [
+            {
+                "categoryName": "Java/MCBE Shaders",
+                "projects": [
+                    {
+                        "title": "Miration Shader",
+                        "shortDesc": "Version: 1.0.0 Beta",
+                        "cardtype": "vertical",
+                        "logoPath": "assets/projects/msbe/main/pack_icon.png",
+                        "bannerPath": "assets/projects/miration_banner.png",
+                        "longDesc": "Developer: ngmvix2010_, jaggerfinn_, congcq\nA custom Render Dragon shader for Minecraft\nOnly work with MB Loader.",
+                        "downloadLink": "https://github.com/CyberGangzTeam/miration-shader/releases",
+                        "githubLink": "https://github.com/CyberGangzTeam/miration-shader",
+                        "tags": ["GLSL", "RenderDragon", "MCBE", "BGFX"]
+                    },
+                    {
+                        "title": "Miration Shader (Reimagined)",
+                        "shortDesc": "Version: 1.0.0 Beta",
+                        "cardtype": "vertical",
+                        "logoPath": "assets/projects/msbe/reimagined/pack_icon.png",
+                        "bannerPath": "assets/projects/miration_banner.png",
+                        "longDesc": "Developer: ngmvix2010_, jaggerfinn_, congcq\nA custom Render Dragon shader for Minecraft\nOnly work with MB Loader.",
+                        "downloadLink": "https://github.com/CyberGangzTeam/miration-shader/releases",
+                        "githubLink": "https://github.com/CyberGangzTeam/miration-shader",
+                        "tags": ["GLSL", "RenderDragon", "MCBE", "BGFX"]
+                    },
+                    {
+                        "title": "Miration Shader (Renewed)",
+                        "shortDesc": "Version: 1.0.0 Beta",
+                        "cardtype": "vertical",
+                        "logoPath": "assets/projects/msbe/renewed/pack_icon.png",
+                        "bannerPath": "assets/projects/miration_banner.png",
+                        "longDesc": "Developer: ngmvix2010_, jaggerfinn_, congcq\nA custom Render Dragon shader for Minecraft\nOnly work with MB Loader.",
+                        "downloadLink": "https://github.com/CyberGangzTeam/miration-shader/releases",
+                        "githubLink": "https://github.com/CyberGangzTeam/miration-shader",
+                        "tags": ["GLSL", "RenderDragon", "MCBE", "BGFX"]
+                    },
+                    {
+                        "title": "Newb Paretion",
+                        "shortDesc": "Version: v26.05 Hydrogen",
+                        "cardtype": "vertical",
+                        "logoPath": "assets/projects/newb-paretion/pack_icon.png",
+                        "bannerPath": "assets/projects/newb-paretion/pack_icon.png",
+                        "longDesc": "A custom variant of Newb X Legacy",
+                        "downloadLink": "https://github.com/ngmvix2010/newb-paretion/releases",
+                        "githubLink": "https://github.com/ngmvix2010/newb-paretion",
+                        "tags": ["GLSL", "RenderDragon", "MCBE", "BGFX", "Newb Variant"]
+                    },
+                    {
+                        "title": "Paretion Shader",
+                        "shortDesc": "Version: 0.26.5 Dev",
+                        "cardtype": "vertical",
+                        "logoPath": "assets/projects/psbe/pack_icon.png",
+                        "bannerPath": "assets/projects/psbe/pack_icon.png",
+                        "longDesc": "Codename: Hydrogen\nDeveloper: ngmvix2010_\nA custom Render Dragon shader for Minecraft\nOnly work with Loaders.",
+                        "downloadLink": "https://github.com/ngmvix2010/psbe/releases",
+                        "githubLink": "https://github.com/ngmvix2010/psbe",
+                        "tags": ["GLSL", "RenderDragon", "MCBE", "BGFX"]
+                    }
+                ]
+            },
+            {
+                "categoryName": "Tweaks/Module (iOS, Android, Linux)",
+                "projects": [
+                    {
+                        "title": "Hynis Loader",
+                        "shortDesc": "Version: Unknown",
+                        "cardtype": "vertical",
+                        "logoPath": "assets/logo.png",
+                        "bannerPath": "assets/logo.png",
+                        "longDesc": "Shader Loader For MCBE iOS",
+                        "downloadLink": "https://github.com/congcq/HynisLoader/releases",
+                        "githubLink": "https://github.com/congcq/HynisLoader",
+                        "tags": ["Swift", "Tweaks", "iOS", "MCBE"]
+                    },
+                    {
+                        "title": "Pojav Patch For iOS",
+                        "shortDesc": "Version: Unknown",
+                        "cardtype": "vertical",
+                        "logoPath": "assets/logo.png",
+                        "bannerPath": "assets/logo.png",
+                        "longDesc": "Patch Version Of Pojavlauncher For iOS",
+                        "downloadLink": "https://github.com/congcq/Pojav-Patch-iOS/releases",
+                        "githubLink": "https://github.com/congcq/Pojav-Patch-iOS",
+                        "tags": ["Swift", "Tweaks", "iOS", "Pojavlauncher", "Java"]
+                    }
+                ]
+            }
+        ];
+        
+        const introOverlay = document.getElementById('introOverlay');
+        const dialog1 = document.getElementById('dialog1');
+        const dialog2 = document.getElementById('dialog2');
+        const btnNext1 = document.getElementById('btnNext1');
+        const btnNext2 = document.getElementById('btnNext2');
+        const dialogContainer = document.getElementById('dialogContainer');
+
+        if (sessionStorage.getItem('introSeen')) {
+            introOverlay.style.display = 'none';
+        }
+
+        btnNext1.addEventListener('click', () => {
+            dialog1.style.opacity = '0';
+            dialog1.style.transform = 'translateY(-10px)';
+            
+            setTimeout(() => {
+                dialog1.classList.add('hidden');
+                dialog1.classList.remove('flex');
+                dialog2.classList.remove('hidden');
+                dialog2.classList.add('flex');
+                
+                setTimeout(() => {
+                    dialog2.classList.remove('opacity-0', 'translate-y-4');
+                }, 50);
+            }, 300);
+        });
+
+        btnNext2.addEventListener('click', () => {
+            introOverlay.style.opacity = '0';
+            dialogContainer.style.transform = 'scale(0.95) translateY(10px)';
+            sessionStorage.setItem('introSeen', 'true');
+            
+            setTimeout(() => {
+                introOverlay.classList.add('hidden');
+            }, 400);
+        });
+
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+
+        if (!localStorage.getItem('theme')) {
+            localStorage.setItem('theme', 'dark');
+        }
+
+        function updateThemeIcon() {
+            if (htmlElement.classList.contains('dark')) {
+                document.getElementById('sunIcon').classList.remove('hidden');
+                document.getElementById('moonIcon').classList.add('hidden');
+            } else {
+                document.getElementById('sunIcon').classList.add('hidden');
+                document.getElementById('moonIcon').classList.remove('hidden');
+            }
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            htmlElement.classList.toggle('dark');
+            htmlElement.classList.toggle('light');
+            localStorage.setItem('theme', htmlElement.classList.contains('dark') ? 'dark' : 'light');
+            updateThemeIcon();
+        });
+        updateThemeIcon();
+
+        function navigateTo(sectionId) {
+            document.querySelectorAll('.page-section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+            
+            const targetSection = document.getElementById(`${sectionId}-section`);
+            if(targetSection) {
+                targetSection.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active', 'bg-white/10', 'text-white');
+                link.classList.add('text-gray-400');
+                if (link.dataset.target === sectionId) {
+                    link.classList.add('active', 'bg-white/10', 'text-white');
+                    link.classList.remove('text-gray-400');
+                }
+            });
+
+            if(sectionId === 'explore') {
+                renderProjects();
+            }
+        }
+
+        function renderProjects() {
+            const container = document.getElementById('projects-container');
+            container.innerHTML = ''; 
+
+            projectsData.forEach((category, catIndex) => {
+                const catSection = document.createElement('div');
+                catSection.className = 'w-full flex flex-col items-start gap-4';
+                
+                const catTitle = document.createElement('h3');
+                catTitle.className = 'text-xl font-bold text-white tracking-wide';
+                catTitle.textContent = category.categoryName;
+                catSection.appendChild(catTitle);
+
+                const grid = document.createElement('div');
+                grid.className = 'w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6';
+
+                category.projects.forEach((proj, projIndex) => {
+                    const card = document.createElement('div');
+                    let cardClasses = 'glass-effect glass-card rounded-[24px] p-3 flex flex-col gap-3 interactive-element group overflow-hidden border border-white/5';
+                    
+                    if (proj.cardtype === 'landscape') {
+                        cardClasses += ' col-span-2 sm:col-span-2 lg:col-span-2';
+                    } else {
+                        cardClasses += ' col-span-1';
+                    }
+                    
+                    card.className = cardClasses;
+                    card.onclick = () => openProjectDetails(catIndex, projIndex);
+
+                    const img = document.createElement('img');
+                    img.src = proj.cardtype === 'landscape' ? proj.bannerPath : proj.logoPath;
+                    img.className = `w-full ${proj.cardtype === 'landscape' ? 'aspect-[2/1]' : 'aspect-square'} rounded-[16px] object-cover bg-white/5 transition-transform duration-500 group-hover:scale-105`;
+                    
+                    const infoDiv = document.createElement('div');
+                    infoDiv.className = 'flex flex-col px-1 pb-1 z-10';
+                    
+                    const title = document.createElement('h4');
+                    title.className = 'font-bold text-white text-base md:text-lg truncate';
+                    title.textContent = proj.title;
+                    
+                    const desc = document.createElement('p');
+                    desc.className = 'text-xs md:text-sm text-gray-400 font-medium truncate';
+                    desc.textContent = proj.shortDesc;
+
+                    infoDiv.appendChild(title);
+                    infoDiv.appendChild(desc);
+                    
+                    card.appendChild(img);
+                    card.appendChild(infoDiv);
+                    grid.appendChild(card);
+                });
+
+                catSection.appendChild(grid);
+                container.appendChild(catSection);
+            });
+        }
+
+        function openProjectDetails(catIndex, projIndex) {
+            const proj = projectsData[catIndex].projects[projIndex];
+            
+            document.getElementById('detail-logo').src = proj.logoPath;
+            document.getElementById('detail-title').textContent = proj.title;
+            document.getElementById('detail-short-desc').textContent = proj.shortDesc;
+            document.getElementById('detail-banner-img').src = proj.bannerPath;
+            document.getElementById('detail-long-desc').textContent = proj.longDesc;
+            
+            document.getElementById('detail-github').href = proj.githubLink;
+            document.getElementById('detail-download').href = proj.downloadLink;
+
+            const tagsContainer = document.getElementById('detail-tags');
+            tagsContainer.innerHTML = '';
+            if (proj.tags && proj.tags.length > 0) {
+                proj.tags.forEach(tag => {
+                    const t = document.createElement('span');
+                    t.className = 'px-3 py-1 rounded-md bg-white/10 text-xs font-semibold text-gray-300 border border-white/10';
+                    t.textContent = tag;
+                    tagsContainer.appendChild(t);
+                });
+            }
+
+            switchDetailTab('banner');
+            navigateTo('project-detail');
+        }
+
+        function switchDetailTab(tabName) {
+            const btnBanner = document.getElementById('tab-banner');
+            const btnDesc = document.getElementById('tab-desc');
+            const viewBanner = document.getElementById('view-banner');
+            const viewDesc = document.getElementById('view-desc');
+
+            btnBanner.className = 'detail-tab px-6 py-2 rounded-full font-medium text-sm transition-all text-gray-400 hover:text-white';
+            btnDesc.className = 'detail-tab px-6 py-2 rounded-full font-medium text-sm transition-all text-gray-400 hover:text-white';
+            
+            viewBanner.classList.add('hidden');
+            viewDesc.classList.add('hidden');
+
+            if (tabName === 'banner') {
+                btnBanner.className = 'detail-tab active px-6 py-2 rounded-full font-medium text-sm transition-all bg-white/10 text-white';
+                viewBanner.classList.remove('hidden');
+            } else {
+                btnDesc.className = 'detail-tab active px-6 py-2 rounded-full font-medium text-sm transition-all bg-white/10 text-white';
+                viewDesc.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
